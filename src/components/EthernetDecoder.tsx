@@ -77,16 +77,17 @@ const techMap: Record<number, string> = {
     6: '100GBASE-KP4',
     7: '100GBASE-KR4',
     8: '100GBASE-CR4',
-    9: '25GBASE-R_S (KR-S/CR-S)',
+    9: '25GBASE-R-S (KR-S/CR-S)',
     10: '25GBASE-R (KR/CR)',
-    11: '2500BASE-KX',
+    11: '2.5GBASE-KX',
     12: '5GBASE-KR',
-    13: '50GBASE-R',
-    14: '100GBASE-R2',
-    15: '200GBASE-R4',
-    16: '100GBASE-R1',
-    17: '200GBASE-R2',
-    18: '400GBASE-R4',
+    13: '50GBASE-R (KR/CR)',
+    14: '100GBASE-R2 (KR2/CR2)',
+    15: '200GBASE-R4 (KR4/CR4)',
+    16: '100GBASE-R1 (KR1/CR1)',
+    17: '200GBASE-R2 (KR2/CR2)',
+    18: '400GBASE-R4 (KR4/CR4)',
+    19: '800GBASE-R8 (KR8/CR8)',
     20: 'Extended_TAF_1_capability (A20)',
     21: 'Extended_FEC_1_capability (A21)',
 };
@@ -116,11 +117,11 @@ const parseBasePage = (hex: string): BasePageData => {
         rf: getBit(val, 13),
         ack: getBit(val, 14),
         np: getBit(val, 15),
-        f0: getBit(val, 43), // 10G/lane FEC Ability
-        f1: getBit(val, 44), // 10G/lane FEC Req
-        f2: getBit(val, 45), // 25G RS-FEC Req
-        f3: getBit(val, 46), // 25G BASE-R FEC Req (Firecode)
-        f4: getBit(val, 47), // 100G RS-FEC-Int Req
+        f4: getBit(val, 43), // 100G RS-FEC-Int Req
+        f2: getBit(val, 44), // 25G RS-FEC Req
+        f3: getBit(val, 45), // 25G BASE-R FEC Req (Firecode)
+        f0: getBit(val, 46), // 10G/lane FEC Ability
+        f1: getBit(val, 47), // 10G/lane FEC Req
         activeTechs
     };
 };
