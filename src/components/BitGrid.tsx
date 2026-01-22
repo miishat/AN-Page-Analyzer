@@ -1,14 +1,7 @@
 import React from 'react';
 import { Info } from 'lucide-react';
 import { hexCharToBinary } from '../utils/bitUtils';
-
-export interface BitRegion {
-    start: number;
-    end: number;
-    color: string;
-    label?: string;
-    description?: string;
-}
+import { BitRegion } from '../types';
 
 interface BitGridProps {
     hexString: string;
