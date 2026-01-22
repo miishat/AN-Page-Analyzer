@@ -7,11 +7,24 @@ import EthernetDecoder from './components/EthernetDecoder';
 type DecodeMode = 'raw' | 'base' | 'next';
 
 const App: React.FC = () => {
-    const [hexInput, setHexInput] = useState('');
-    const [hexInput2, setHexInput2] = useState('');
+    // State for inputs separated by mode
+    const [inputs, setInputs] = useState<{
+        raw: { box1: string, box2: string },
+        base: { box1: string, box2: string },
+        next: { box1: string, box2: string }
+    }>({
+        raw: { box1: '', box2: '' },
+        base: { box1: '', box2: '' },
+        next: { box1: '', box2: '' }
+    });
+
     const [isCompareMode, setIsCompareMode] = useState(false);
     const [decodeMode, setDecodeMode] = useState<DecodeMode>('raw');
     const [darkMode, setDarkMode] = useState(true);
+
+    // Helpers to get current active inputs
+    const currentVal1 = inputs[decodeMode].box1;
+    const currentVal2 = inputs[decodeMode].box2;
 
     // Handle dark mode toggle
     useEffect(() => {
@@ -22,21 +35,37 @@ const App: React.FC = () => {
         }
     }, [darkMode]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) => {
-        // Only allow Hex characters
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, box: 'box1' | 'box2') => {
         const val = e.target.value;
+        // Only allow Hex characters
         if (/^[0-9a-fA-F]*$/.test(val)) {
-            setter(val.toUpperCase());
+            setInputs(prev => ({
+                ...prev,
+                [decodeMode]: {
+                    ...prev[decodeMode],
+                    [box]: val.toUpperCase()
+                }
+            }));
         }
+    };
+
+    const setInputDirectly = (val: string, box: 'box1' | 'box2' = 'box1') => {
+        setInputs(prev => ({
+            ...prev,
+            [decodeMode]: {
+                ...prev[decodeMode],
+                [box]: val.toUpperCase()
+            }
+        }));
     };
 
     const toggleCompare = () => {
         if (isCompareMode) {
             setIsCompareMode(false);
-            setHexInput2('');
+            // We do NOT clear the second input anymore, so it persists if they toggle back
         } else {
             setIsCompareMode(true);
-            if (decodeMode === 'raw') setDecodeMode('base'); // Compare implies structure usually
+            if (decodeMode === 'raw') setDecodeMode('base');
         }
     }
 
@@ -140,8 +169,8 @@ const App: React.FC = () => {
                             </div>
                             <input
                                 type="text"
-                                value={hexInput}
-                                onChange={(e) => handleInputChange(e, setHexInput)}
+                                value={currentVal1}
+                                onChange={(e) => handleInputChange(e, 'box1')}
                                 placeholder={decodeMode === 'raw' ? "Type Hex..." : "48-bit AN Page Hex..."}
                                 className="block w-full pl-12 pr-12 py-4 bg-slate-100 dark:bg-slate-950 border-2 border-transparent focus:border-emerald-500 rounded-xl text-2xl font-mono tracking-wider text-slate-900 dark:text-white placeholder:text-slate-400 outline-none transition-all shadow-inner"
                                 autoFocus
@@ -158,8 +187,8 @@ const App: React.FC = () => {
                                 </div>
                                 <input
                                     type="text"
-                                    value={hexInput2}
-                                    onChange={(e) => handleInputChange(e, setHexInput2)}
+                                    value={currentVal2}
+                                    onChange={(e) => handleInputChange(e, 'box2')}
                                     placeholder="Page to compare..."
                                     className="block w-full pl-12 pr-12 py-4 bg-slate-100 dark:bg-slate-950 border-2 border-transparent focus:border-amber-500 rounded-xl text-2xl font-mono tracking-wider text-slate-900 dark:text-white placeholder:text-slate-400 outline-none transition-all shadow-inner"
                                     spellCheck={false}
@@ -173,7 +202,7 @@ const App: React.FC = () => {
                     <div className="flex flex-wrap justify-center gap-6 mt-8 mb-4 text-sm">
                         <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
                             <span className="text-slate-500 uppercase tracking-wider font-semibold text-xs">Bits</span>
-                            <span className="font-mono">{Math.max(hexInput.length * 4, decodeMode !== 'raw' ? 48 : 0)}</span>
+                            <span className="font-mono">{Math.max(currentVal1.length * 4, decodeMode !== 'raw' ? 48 : 0)}</span>
                         </div>
                         {decodeMode !== 'raw' && (
                             <div className="flex items-center gap-2 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg border border-indigo-100 dark:border-indigo-800">
@@ -189,16 +218,16 @@ const App: React.FC = () => {
                             <div>
                                 {isCompareMode && <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Bit Visualizer 1</h3>}
                                 <BitGrid
-                                    hexString={decodeMode !== 'raw' && hexInput ? hexInput.padStart(12, '0') : hexInput}
+                                    hexString={decodeMode !== 'raw' && currentVal1 ? currentVal1.padStart(12, '0') : currentVal1}
                                     regions={getRegions()}
                                     isCompressed={isCompareMode}
                                 />
                             </div>
-                            {isCompareMode && hexInput2 && (
+                            {isCompareMode && currentVal2 && (
                                 <div className="border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-slate-800 pt-8 xl:pt-0 xl:pl-8">
                                     <h3 className="text-xs font-semibold text-amber-500 uppercase tracking-wider mb-4">Bit Visualizer 2</h3>
                                     <BitGrid
-                                        hexString={decodeMode !== 'raw' && hexInput2 ? hexInput2.padStart(12, '0') : hexInput2}
+                                        hexString={decodeMode !== 'raw' && currentVal2 ? currentVal2.padStart(12, '0') : currentVal2}
                                         regions={getRegions()}
                                         isCompressed={isCompareMode}
                                     />
@@ -208,7 +237,7 @@ const App: React.FC = () => {
                     </div>
 
                     {/* The Decoder Panel (Conditional) */}
-                    {hexInput && decodeMode !== 'raw' && (
+                    {currentVal1 && decodeMode !== 'raw' && (
                         <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800">
                             <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
                                 <Network className="w-5 h-5 text-emerald-500" />
@@ -219,21 +248,21 @@ const App: React.FC = () => {
                                 )}
                             </h2>
                             <EthernetDecoder
-                                hexString={hexInput}
-                                hexString2={isCompareMode ? hexInput2 : undefined}
+                                hexString={currentVal1}
+                                hexString2={isCompareMode ? currentVal2 : undefined}
                                 mode={decodeMode}
                             />
                         </div>
                     )}
 
-                    {!hexInput && !isCompareMode && (
+                    {!currentVal1 && !isCompareMode && (
                         <div className="mt-8 text-center">
                             <div className="flex justify-center gap-2">
                                 {decodeMode === 'raw' ? (
                                     ['1F', 'A5', 'DEADBEEF', 'C0FFEE'].map(example => (
                                         <button
                                             key={example}
-                                            onClick={() => setHexInput(example)}
+                                            onClick={() => setInputDirectly(example)}
                                             className="px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-xs font-mono text-slate-600 dark:text-slate-300 transition-colors"
                                         >
                                             0x{example}
@@ -243,7 +272,7 @@ const App: React.FC = () => {
                                     ['01E00000', '41A00001', 'C00000200001'].map(example => (
                                         <button
                                             key={example}
-                                            onClick={() => setHexInput(example)}
+                                            onClick={() => setInputDirectly(example)}
                                             className="px-3 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-xs font-mono text-slate-600 dark:text-slate-300 transition-colors"
                                         >
                                             0x{example}
