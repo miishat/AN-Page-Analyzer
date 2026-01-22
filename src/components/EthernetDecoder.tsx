@@ -67,6 +67,8 @@ const techMap: Record<number, string> = {
     16: '100GBASE-R1',
     17: '200GBASE-R2',
     18: '400GBASE-R4',
+    20: 'Extended_TAF_1_capability (A20)',
+    21: 'Extended_FEC_1_capability (A21)',
 };
 
 const parseBasePage = (hex: string): BasePageData => {
@@ -379,9 +381,41 @@ const EthernetDecoder: React.FC<EthernetDecoderProps> = ({ hexString, hexString2
     // === RENDER SINGLE VIEW ===
     if (mode === 'base') {
         const d = parseBasePage(hexString);
+
+        // Validation for A20/A21 (Extended Tech/FEC)
+        const hasA20 = d.activeTechs.some(t => t.bit === 41);
+        const hasA21 = d.activeTechs.some(t => t.bit === 42);
+        const hasExtended = hasA20 || hasA21;
+        const invalidExtended = hasExtended && !d.np; // Must have NP=1 if Extended bits set
+
         return (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="space-y-6">
+                    {/* Validation Alerts */}
+                    {invalidExtended && (
+                        <div className="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900 p-4 rounded-xl flex items-start gap-3">
+                            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 shrink-0 mt-0.5" />
+                            <div>
+                                <h4 className="text-sm font-semibold text-red-900 dark:text-red-200">Invalid Configuration</h4>
+                                <p className="text-sm text-red-700 dark:text-red-300 mt-1">
+                                    Extended Capability bits (A20/A21) are set, but Next Page (NP) is 0.
+                                    <br />
+                                    The standard requires NP to be set to indicate a Next Page with Message Code 2 follows.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                    {hasExtended && d.np && (
+                        <div className="bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-200 dark:border-indigo-900 p-4 rounded-xl flex items-start gap-3">
+                            <CheckCircle2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                            <div>
+                                <h4 className="text-sm font-semibold text-indigo-900 dark:text-indigo-200">Extended Capabilities Indicated</h4>
+                                <p className="text-sm text-indigo-700 dark:text-indigo-300 mt-1">
+                                    A20/A21 set. Expect a Next Page with Message Code 2 to define additional abilities.
+                                </p>
+                            </div>
+                        </div>
+                    )}
                     <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-3">Control & Status</h3>
                         <div className="space-y-2">
