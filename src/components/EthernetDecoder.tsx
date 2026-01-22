@@ -269,11 +269,11 @@ const EthernetDecoder: React.FC<EthernetDecoderProps> = ({ hexString, hexString2
                     <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
                         <h3 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">FEC Comparison</h3>
                         <div className="space-y-3">
-                            <CompareBoolRow label="10G/lane FEC Ability (F0)" val1={d1.f0} val2={d2.f0} bitIndex={43} />
-                            <CompareBoolRow label="10G/lane FEC Req (F1)" val1={d1.f1} val2={d2.f1} bitIndex={44} />
-                            <CompareBoolRow label="25G RS-FEC Req (F2)" val1={d1.f2} val2={d2.f2} bitIndex={45} />
-                            <CompareBoolRow label="25G BASE-R FEC Req (F3)" val1={d1.f3} val2={d2.f3} bitIndex={46} />
-                            <CompareBoolRow label="100G RS-FEC-Int Req (F4)" val1={d1.f4} val2={d2.f4} bitIndex={47} />
+                            <CompareBoolRow label="10G/lane FEC Ability (F0)" val1={d1.f0} val2={d2.f0} bitIndex={46} />
+                            <CompareBoolRow label="10G/lane FEC Req (F1)" val1={d1.f1} val2={d2.f1} bitIndex={47} />
+                            <CompareBoolRow label="25G RS-FEC Req (F2)" val1={d1.f2} val2={d2.f2} bitIndex={44} />
+                            <CompareBoolRow label="25G BASE-R FEC Req (F3)" val1={d1.f3} val2={d2.f3} bitIndex={45} />
+                            <CompareBoolRow label="100G RS-FEC-Int Req (F4)" val1={d1.f4} val2={d2.f4} bitIndex={43} />
                         </div>
                     </div>
 
@@ -458,11 +458,11 @@ const EthernetDecoder: React.FC<EthernetDecoderProps> = ({ hexString, hexString2
                             <StatusRow label="Pause Ability" bitRange="10:11" value={d.pause ? 'Supported' : 'No'} active={d.pause} isBoolean />
                             <StatusRow label="ASM Pause" bitIndex={11} value={d.asmPause ? 'Supported' : 'No'} active={d.asmPause} isBoolean />
                             <div className="border-t border-slate-200 dark:border-slate-700 my-2 pt-2"></div>
-                            <StatusRow label="10G/lane FEC Ability (F0)" bitIndex={43} value={d.f0 ? 'Supported' : 'No'} active={d.f0} isBoolean />
-                            <StatusRow label="10G/lane FEC Req (F1)" bitIndex={44} value={d.f1 ? 'Yes' : 'No'} active={d.f1} isBoolean />
-                            <StatusRow label="25G RS-FEC Req (F2)" bitIndex={45} value={d.f2 ? 'Yes' : 'No'} active={d.f2} isBoolean />
-                            <StatusRow label="25G BASE-R FEC Req (F3)" bitIndex={46} value={d.f3 ? 'Yes' : 'No'} active={d.f3} isBoolean />
-                            <StatusRow label="100G RS-FEC-Int Req (F4)" bitIndex={47} value={d.f4 ? 'Yes' : 'No'} active={d.f4} isBoolean />
+                            <StatusRow label="10G/lane FEC Ability (F0)" bitIndex={46} value={d.f0 ? 'Supported' : 'No'} active={d.f0} isBoolean />
+                            <StatusRow label="10G/lane FEC Req (F1)" bitIndex={47} value={d.f1 ? 'Yes' : 'No'} active={d.f1} isBoolean />
+                            <StatusRow label="25G RS-FEC Req (F2)" bitIndex={44} value={d.f2 ? 'Yes' : 'No'} active={d.f2} isBoolean />
+                            <StatusRow label="25G BASE-R FEC Req (F3)" bitIndex={45} value={d.f3 ? 'Yes' : 'No'} active={d.f3} isBoolean />
+                            <StatusRow label="100G RS-FEC-Int Req (F4)" bitIndex={43} value={d.f4 ? 'Yes' : 'No'} active={d.f4} isBoolean />
                         </div>
                     </div>
                 </div>
