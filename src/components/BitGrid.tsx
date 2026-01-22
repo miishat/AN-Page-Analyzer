@@ -1,14 +1,32 @@
+/**
+ * BitGrid.tsx
+ * 
+ * Displays a grid of bits for a given hexadecimal string.
+ * Supports visualization of bit regions and responsive layout modes.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import { Info } from 'lucide-react';
 import { hexCharToBinary } from '../utils/bitUtils';
 import { BitRegion } from '../types';
 
+/**
+ * Props for the BitGrid component.
+ */
 interface BitGridProps {
+    /** The hexadecimal string to visualize. */
     hexString: string;
+    /** Optional array of bit regions to highlight and label. */
     regions?: BitRegion[];
+    /** Whether to use a compressed layout (for split comparisons). */
     isCompressed?: boolean;
 }
 
+/**
+ * Renders a responsive grid of bits derived from a hex string.
+ * Handles bit-level interaction and region highlighting.
+ */
 const BitGrid: React.FC<BitGridProps> = ({ hexString, regions = [], isCompressed = false }) => {
     if (!hexString) {
         return (

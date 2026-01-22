@@ -1,3 +1,11 @@
+/**
+ * App.tsx
+ * 
+ * Main application component.
+ * Manages global state, layout, and composition of sub-components.
+ * 
+ * @author Mishat
+ */
 import React, { useState, useEffect } from 'react';
 import { Settings2, Network } from 'lucide-react';
 
@@ -8,6 +16,12 @@ import BitVisualizer from './components/BitVisualizer';
 import { useInputState } from './hooks/useInputState';
 import { getRegions } from './utils/regionUtils';
 
+/**
+ * Role:
+ * - Coordinates state between Header, InputFields, and Visualizers.
+ * - Manages Dark Mode and Comparison Mode toggles.
+ * - Renders the main layout.
+ */
 const App: React.FC = () => {
     // Custom hook for input state management
     const {

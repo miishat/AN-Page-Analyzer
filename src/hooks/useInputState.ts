@@ -1,6 +1,18 @@
+/**
+ * useInputState.ts
+ * 
+ * Custom hook to manage the state of the input fields for different modes.
+ * Preserves input values when switching between decoding modes.
+ * 
+ * @author Mishat
+ */
 import { useState } from 'react';
 import { DecodeMode, InputState } from '../types';
 
+/**
+ * Hook to manage input state.
+ * @returns Object containing current inputs, decode mode, and handlers.
+ */
 export const useInputState = () => {
     const [inputs, setInputs] = useState<InputState>({
         raw: { box1: '', box2: '' },

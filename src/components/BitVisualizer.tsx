@@ -1,15 +1,34 @@
+/**
+ * BitVisualizer.tsx
+ * 
+ * Container component for rendering one or two BitGrid instances.
+ * Handles the logic for comparison mode and layout wrappers.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import BitGrid from './BitGrid';
 import { BitRegion } from '../types';
 
+/**
+ * Props for the BitVisualizer component.
+ */
 interface BitVisualizerProps {
+    /** The hex value for the first input box. */
     currentVal1: string;
+    /** The hex value for the second input box (used in compare mode). */
     currentVal2: string;
+    /** Whether comparison mode is active. */
     isCompareMode: boolean;
+    /** The current decoding mode (raw, base, etc.). */
     decodeMode: string;
+    /** Function to retrieve the relevant bit regions for the current mode. */
     getRegions: () => BitRegion[];
 }
 
+/**
+ * Visualizes the bits for the inputs. Supports single or dual (compare) view.
+ */
 const BitVisualizer: React.FC<BitVisualizerProps> = ({
     currentVal1,
     currentVal2,

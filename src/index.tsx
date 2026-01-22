@@ -1,3 +1,11 @@
+/**
+ * index.tsx
+ * 
+ * Application Entry Point.
+ * Mounts the React App to the DOM.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';

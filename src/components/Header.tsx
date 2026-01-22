@@ -1,18 +1,39 @@
+/**
+ * Header.tsx
+ * 
+ * Top navigation bar containing the app title, mode selector,
+ * comparison toggle, and dark mode toggle.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import { Cpu, Sun, Moon, ArrowLeftRight } from 'lucide-react';
 import { DecodeMode } from '../types';
 import ModeSelector from './ModeSelector';
 
+/**
+ * Props for the Header component.
+ */
 interface HeaderProps {
+    /** Current decoding mode state. */
     decodeMode: DecodeMode;
+    /** Setter for decoding mode. */
     setDecodeMode: (mode: DecodeMode) => void;
+    /** Whether comparison mode is active. */
     isCompareMode: boolean;
+    /** Toggles comparison mode on/off. */
     toggleCompare: () => void;
+    /** Whether dark mode is active. */
     darkMode: boolean;
+    /** Setter for dark mode. */
     setDarkMode: (value: boolean) => void;
+    /** Direct setter for comparison mode state. */
     setIsCompareMode: (value: boolean) => void;
 }
 
+/**
+ * App header component.
+ */
 const Header: React.FC<HeaderProps> = ({
     decodeMode,
     setDecodeMode,

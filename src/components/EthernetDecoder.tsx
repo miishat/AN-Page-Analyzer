@@ -1,14 +1,31 @@
+/**
+ * EthernetDecoder.tsx
+ * 
+ * Logic and UI for decoding Ethernet Auto-Negotiation (AN) pages.
+ * Parses Base Pages and Next Pages, and provides a comparison view.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import { CheckCircle2, AlertCircle, ArrowRight, Minus, ArrowDownUp } from 'lucide-react';
 
+/**
+ * Props for the EthernetDecoder component.
+ */
 interface EthernetDecoderProps {
+    /** The hex string of the first page. */
     hexString: string;
+    /** The hex string of the second page (for comparison). */
     hexString2?: string;
+    /** The decoding mode (Base Page or Next Page). */
     mode: 'base' | 'next';
 }
 
 // --- Data Structures & Helpers ---
 
+/**
+ * Parsed data structure for a Base Page.
+ */
 interface BasePageData {
     selector: number;
     echoedNonce: number;
@@ -27,6 +44,9 @@ interface BasePageData {
     activeTechs: { name: string; bit: number }[];
 }
 
+/**
+ * Parsed data structure for a Next Page.
+ */
 interface NextPageData {
     isMessagePage: boolean;
     messageCode: number;
@@ -160,6 +180,10 @@ const getExtendedTechs = (upperData: bigint) => {
 
 // --- Main Component ---
 
+/**
+ * Component that decodes and displays details of Ethernet AN pages.
+ * Supports side-by-side comparison of two pages.
+ */
 const EthernetDecoder: React.FC<EthernetDecoderProps> = ({ hexString, hexString2, mode }) => {
 
     // === RENDER COMPARISON VIEW ===

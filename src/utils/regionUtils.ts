@@ -1,5 +1,18 @@
+/**
+ * regionUtils.ts
+ * 
+ * Provides definitions for bit regions based on the decoding mode.
+ * Used to highlight specific sections of the bit stream.
+ * 
+ * @author Mishat
+ */
 import { BitRegion, DecodeMode } from '../types';
 
+/**
+ * Returns the bit regions (ranges) relevant to the given decode mode.
+ * @param decodeMode The current mode ('base', 'next', etc.).
+ * @returns An array of BitRegion objects defining start/end indices and colors.
+ */
 export const getRegions = (decodeMode: DecodeMode): BitRegion[] => {
     if (decodeMode === 'base') {
         return [

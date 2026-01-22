@@ -1,14 +1,33 @@
+/**
+ * InputFields.tsx
+ * 
+ * Renders the primary text input fields for hexadecimal data.
+ * Supports one or two inputs based on comparison mode.
+ * 
+ * @author Mishat
+ */
 import React from 'react';
 import { DecodeMode } from '../types';
 
+/**
+ * Props for the InputFields component.
+ */
 interface InputFieldsProps {
+    /** Content of the first input box. */
     currentVal1: string;
+    /** Content of the second input box. */
     currentVal2: string;
+    /** Whether comparison mode is active. */
     isCompareMode: boolean;
+    /** Current decoding mode (affects placeholders). */
     decodeMode: DecodeMode;
+    /** Callback when input changes. */
     handleInputChange: (val: string, box: 'box1' | 'box2') => void;
 }
 
+/**
+ * Component providing text inputs for the user to enter hex strings.
+ */
 const InputFields: React.FC<InputFieldsProps> = ({
     currentVal1,
     currentVal2,
