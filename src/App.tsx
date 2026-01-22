@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Copy, Trash2, Moon, Sun, Cpu, Network, Settings2, FileCode, ArrowLeftRight } from 'lucide-react';
-import { hexToBinary } from './utils/bitUtils';
+import { Terminal, Moon, Sun, Cpu, Network, Settings2, FileCode, ArrowLeftRight } from 'lucide-react';
+
 import BitGrid, { BitRegion } from './components/BitGrid';
 import EthernetDecoder from './components/EthernetDecoder';
 

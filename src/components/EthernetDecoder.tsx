@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, XCircle, AlertCircle, ArrowRight, ArrowLeftRight, Minus, ArrowDownUp, Info } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ArrowRight, Minus, ArrowDownUp } from 'lucide-react';
 
 interface EthernetDecoderProps {
     hexString: string;
